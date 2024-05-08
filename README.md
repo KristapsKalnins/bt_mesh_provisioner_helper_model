@@ -1,0 +1,1 @@
+Bluetooth Mesh Model for enabling the transfer of provisioning information between nodes
