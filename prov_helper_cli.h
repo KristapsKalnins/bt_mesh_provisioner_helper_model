@@ -9,11 +9,11 @@
 #include "prov_helper.h"
 
 
-#define MODEL_ID   0x5678
+#define MODEL_CLI_ID   0x5678
 
 #define BT_MESH_MODEL_PROV_HELPER_CLI(_helper_cli)                                          \
             BT_MESH_MODEL_VND_CB(COMPANY_ID,                                        \
-                     MODEL_ID,                                                      \
+                     MODEL_CLI_ID,                                                      \
                      _bt_mesh_prov_helper_cli_opcode_list,                              							\
                      &(_helper_cli)->pub,                                               \
                      BT_MESH_MODEL_USER_DATA(struct bt_mesh_prov_helper_cli, _helper_cli),   \

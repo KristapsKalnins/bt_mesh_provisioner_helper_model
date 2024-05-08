@@ -7,11 +7,11 @@
 #include <zephyr/bluetooth/mesh/cdb.h>
 #include "prov_helper.h"
 
-#define MODEL_ID   0x5677
+#define MODEL_SRV_ID   0x5677
 
 #define BT_MESH_MODEL_PROV_HELPER_SRV(_helper_srv)                                  \
             BT_MESH_MODEL_VND_CB(COMPANY_ID,                                        \
-                                 MODEL_ID,                                          \
+                                 MODEL_SRV_ID,                                          \
                                  _bt_mesh_prov_helper_srv_opcode_list,              \
                                  &(_helper_srv)->pub,                               \
                                  BT_MESH_MODEL_USER_DATA(                           \
