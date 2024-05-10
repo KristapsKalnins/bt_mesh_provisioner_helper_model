@@ -2,7 +2,6 @@
 #include <zephyr/kernel.h>
 #include <zephyr/bluetooth/bluetooth.h>
 #include <zephyr/bluetooth/mesh.h>
-
 #include "prov_helper_cli.h"
 
 #define LOG_LEVEL LOG_LEVEL_DBG
@@ -39,34 +38,68 @@ const struct bt_mesh_model_cb _bt_mesh_prov_helper_cli_cb = {
     .reset = bt_mesh_prov_helper_cli_reset,
 };
 
-static int send_appkey(struct bt_mesh_model *model, uint8_t *app_key){
+static int send_appkey(struct bt_mesh_model *model, uint8_t *app_key, uint16_t addr){
+
+    struct bt_mesh_prov_helper_cli *helper_cli = model->user_data;
+
+    struct bt_mesh_msg_ctx ctx = BT_MESH_MSG_CTX_INIT_APP(0, addr);
+    
 
     bt_mesh_model_msg_init(model->pub->msg, BT_MESH_PROV_HELPER_OP_APPKEY);
     net_buf_simple_add_mem(model->pub->msg, app_key, BT_MESH_PROV_HELPER_MSG_LEN_APPKEY);
+/*
+    const struct bt_mesh_msg_rsp_ctx rsp = {
+		.ack = helper_cli->ack_ctx
+		.op = BT_MESH_PROV_HELPER_OP_APPKEY,
+		.user_data = NULL,
+		.timeout = 10000,
+	};
+*/
+    // Fill message buffer
+
+    //return bt_mesh_model_publish(model);
+    return bt_mesh_msg_ackd_send(model, &ctx, model->pub->msg, NULL);
+}
+
+int bt_mesh_prov_helper_cli_send_appkey(struct bt_mesh_model *model, uint8_t *app_key, uint16_t addr){
+
+    return send_appkey(model, app_key, addr);
+
+}
+
+static int send_netkey(struct bt_mesh_model *model, uint8_t *net_key, uint16_t addr){
+/*
+    bt_mesh_model_msg_init(model->pub->msg, BT_MESH_PROV_HELPER_OP_NETKEY);
+    net_buf_simple_add_mem(model->pub->msg, net_key, BT_MESH_PROV_HELPER_MSG_LEN_NETKEY);
 
     // Fill message buffer
 
-    return bt_mesh_model_publish(model);
-}
+    return bt_mesh_model_publish(model);*/
 
-int bt_mesh_prov_helper_cli_send_appkey(struct bt_mesh_model *model, uint8_t *app_key){
+    struct bt_mesh_prov_helper_cli *helper_cli = model->user_data;
 
-    return send_appkey(model, app_key);
-
-}
-
-static int send_netkey(struct bt_mesh_model *model, uint8_t *net_key){
+    struct bt_mesh_msg_ctx ctx = BT_MESH_MSG_CTX_INIT_APP(0, addr);
+    
 
     bt_mesh_model_msg_init(model->pub->msg, BT_MESH_PROV_HELPER_OP_NETKEY);
-    net_buf_simple_add_mem(model->pub->msg, net_key, BT_MESH_PROV_HELPER_OP_NETKEY);
-
+    net_buf_simple_add_mem(model->pub->msg, net_key, BT_MESH_PROV_HELPER_MSG_LEN_NETKEY);
+/*
+    const struct bt_mesh_msg_rsp_ctx rsp = {
+		.ack = &helper_cli->ack_ctx,
+		.op = BT_MESH_PROV_HELPER_OP_APPKEY,
+		.user_data = NULL,
+		.timeout = 10000,
+	};
+*/
     // Fill message buffer
 
-    return bt_mesh_model_publish(model);
+    //return bt_mesh_model_publish(model);
+    return bt_mesh_msg_ackd_send(model, &ctx, model->pub->msg, &rsp);
+
 }
 
-int bt_mesh_prov_helper_cli_send_netkey(struct bt_mesh_model *model, uint8_t *net_key){
-    return send_netkey(model, net_key);
+int bt_mesh_prov_helper_cli_send_netkey(struct bt_mesh_model *model, uint8_t *net_key, uint16_t addr){
+    return send_netkey(model, net_key, addr);
 }
 
 static int send_nodeinfo(struct bt_mesh_model *model, struct bt_mesh_cdb_node* node){

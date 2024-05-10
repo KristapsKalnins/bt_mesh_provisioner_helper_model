@@ -10,6 +10,7 @@
 
 
 #define MODEL_CLI_ID   0x5678
+#define BT_MESH_VND_MODEL_ID_PROV_HELPER_CLI MODEL_CLI_ID
 
 #define BT_MESH_MODEL_PROV_HELPER_CLI(_helper_cli)                                          \
             BT_MESH_MODEL_VND_CB(COMPANY_ID,                                        \
@@ -40,8 +41,8 @@ struct bt_mesh_prov_helper_cli {
 	//const struct bt_mesh_time_cli_handlers *handlers; 
 };
 
-int bt_mesh_prov_helper_cli_send_appkey(struct bt_mesh_model *model, uint8_t *app_key);
-int bt_mesh_prov_helper_cli_send_netkey(struct bt_mesh_model *model, uint8_t *net_key);
+int bt_mesh_prov_helper_cli_send_appkey(struct bt_mesh_model *model, uint8_t *app_key, uint16_t addr);
+int bt_mesh_prov_helper_cli_send_netkey(struct bt_mesh_model *model, uint8_t *net_key, uint16_t addr);
 int bt_mesh_prov_helper_cli_send_nodeinfo(struct bt_mesh_model *model, struct bt_mesh_cdb_node* node);
 
 //int send_appkey(struct bt_mesh_model *model);

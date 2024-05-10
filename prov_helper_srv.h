@@ -8,6 +8,7 @@
 #include "prov_helper.h"
 
 #define MODEL_SRV_ID   0x5677
+#define BT_MESH_VND_MODEL_ID_PROV_HELPER_SRV MODEL_SRV_ID
 
 #define BT_MESH_MODEL_PROV_HELPER_SRV(_helper_srv)                                  \
             BT_MESH_MODEL_VND_CB(COMPANY_ID,                                        \
