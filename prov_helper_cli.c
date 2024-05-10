@@ -94,7 +94,7 @@ static int send_netkey(struct bt_mesh_model *model, uint8_t *net_key, uint16_t a
     // Fill message buffer
 
     //return bt_mesh_model_publish(model);
-    return bt_mesh_msg_ackd_send(model, &ctx, model->pub->msg, &rsp);
+    return bt_mesh_msg_ackd_send(model, &ctx, model->pub->msg, NULL/*&rsp*/);
 
 }
 
@@ -102,7 +102,11 @@ int bt_mesh_prov_helper_cli_send_netkey(struct bt_mesh_model *model, uint8_t *ne
     return send_netkey(model, net_key, addr);
 }
 
-static int send_nodeinfo(struct bt_mesh_model *model, struct bt_mesh_cdb_node* node){
+static int send_nodeinfo(struct bt_mesh_model *model, struct bt_mesh_cdb_node* node, uint16_t addr){
+
+    struct bt_mesh_prov_helper_cli *helper_cli = model->user_data;
+
+    struct bt_mesh_msg_ctx ctx = BT_MESH_MSG_CTX_INIT_APP(0, addr);
 
     bt_mesh_model_msg_init(model->pub->msg, BT_MESH_PROV_HELPER_OP_NODEINFO);
 
@@ -113,12 +117,14 @@ static int send_nodeinfo(struct bt_mesh_model *model, struct bt_mesh_cdb_node* n
     net_buf_simple_add_mem(model->pub->msg, node->dev_key.key, 16);
     net_buf_simple_add_mem(model->pub->msg, node->flags, sizeof(node->flags));
 
-    return bt_mesh_model_publish(model);
+    //return bt_mesh_model_publish(model);
+    return bt_mesh_msg_ackd_send(model, &ctx, model->pub->msg, NULL/*&rsp*/);
+
 }
 
-int bt_mesh_prov_helper_cli_send_nodeinfo(struct bt_mesh_model *model, struct bt_mesh_cdb_node* node){
+int bt_mesh_prov_helper_cli_send_nodeinfo(struct bt_mesh_model *model, struct bt_mesh_cdb_node* node, uint16_t addr){
 
-    return send_nodeinfo(model, node);
+    return send_nodeinfo(model, node, addr);
 
 }
 

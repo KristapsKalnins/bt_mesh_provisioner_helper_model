@@ -43,7 +43,7 @@ struct bt_mesh_prov_helper_cli {
 
 int bt_mesh_prov_helper_cli_send_appkey(struct bt_mesh_model *model, uint8_t *app_key, uint16_t addr);
 int bt_mesh_prov_helper_cli_send_netkey(struct bt_mesh_model *model, uint8_t *net_key, uint16_t addr);
-int bt_mesh_prov_helper_cli_send_nodeinfo(struct bt_mesh_model *model, struct bt_mesh_cdb_node* node);
+int bt_mesh_prov_helper_cli_send_nodeinfo(struct bt_mesh_model *model, struct bt_mesh_cdb_node* node, uint16_t addr);
 
 //int send_appkey(struct bt_mesh_model *model);
 extern const struct bt_mesh_model_op _bt_mesh_prov_helper_cli_opcode_list[];

@@ -12,15 +12,15 @@
 
 #define BT_MESH_MODEL_PROV_HELPER_SRV(_helper_srv)                                  \
             BT_MESH_MODEL_VND_CB(COMPANY_ID,                                        \
-                                 MODEL_SRV_ID,                                          \
+                                 MODEL_SRV_ID,                                      \
                                  _bt_mesh_prov_helper_srv_opcode_list,              \
                                  &(_helper_srv)->pub,                               \
                                  BT_MESH_MODEL_USER_DATA(                           \
                                     struct bt_mesh_prov_helper_srv, _helper_srv),   \
                                  &_bt_mesh_prov_helper_srv_cb)
 
-#define BT_MESH_PROV_HELPER_SRV_INIT()                              \
-        {                                                           \
+#define BT_MESH_PROV_HELPER_SRV_INIT(_handlers)                     \
+        {   .handlers = _handlers,									\
             .pub = {.msg = NET_BUF_SIMPLE(BT_MESH_MODEL_BUF_LEN(    \
 	        BT_MESH_PROV_HELPER_OP_NODEINFO,                        \
 	        BT_MESH_PROV_HELPER_MSG_LEN_NODEINFO)) }                \
@@ -38,8 +38,26 @@ struct bt_mesh_prov_helper_srv {
 	//*
 	//* @note Must point to memory that remains valid.
 	//*/
-	//const struct bt_mesh_time_cli_handlers *handlers; 
+	const struct bt_mesh_time_srv_handlers *handlers; 
 };
+
+struct bt_mesh_time_srv_handlers {
+
+	void (*const prov_helper_message_appkey)(
+		struct bt_mesh_prov_helper_srv* srv, struct bt_mesh_msg_ctx *ctx,
+		struct net_buf_simple *buf);
+
+	void (*const prov_helper_message_netkey)(
+		struct bt_mesh_prov_helper_srv* srv, struct bt_mesh_msg_ctx *ctx,
+		struct net_buf_simple *buf);
+
+	void (*const prov_helper_message_nodeinfo)(
+		struct bt_mesh_prov_helper_srv* srv, struct bt_mesh_msg_ctx *ctx,
+		struct net_buf_simple *buf);
+	
+};
+
+
 
 
 extern const struct bt_mesh_model_op _bt_mesh_prov_helper_srv_opcode_list[];

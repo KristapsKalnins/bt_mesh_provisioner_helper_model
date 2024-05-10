@@ -37,14 +37,29 @@ static int handle_message_appkey(struct bt_mesh_model *model,
                                   struct bt_mesh_msg_ctx *ctx,
                                   struct net_buf_simple *buf){
     
+    struct bt_mesh_prov_helper_srv *srv = model->user_data;
     LOG_INF("Received appkey message");
+
+    if(srv->handlers && srv->handlers->prov_helper_message_appkey){
+        LOG_INF("Calling app key handler");
+        srv->handlers->prov_helper_message_appkey(srv, ctx, buf);
+    }
+
     return 0;
 }
 
 static int handle_message_netkey(struct bt_mesh_model *model,
                                   struct bt_mesh_msg_ctx *ctx,
                                   struct net_buf_simple *buf){
+    struct bt_mesh_prov_helper_srv *srv = model->user_data;
+
     LOG_INF("Received netkey message");
+    
+    if(srv->handlers && srv->handlers->prov_helper_message_netkey){
+        LOG_INF("Calling net key handler");
+        srv->handlers->prov_helper_message_netkey(srv, ctx, buf);
+    }
+    
     return 0;
 }
 
