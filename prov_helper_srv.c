@@ -66,7 +66,13 @@ static int handle_message_netkey(struct bt_mesh_model *model,
 static int handle_message_nodeinfo(struct bt_mesh_model *model,
                                   struct bt_mesh_msg_ctx *ctx,
                                   struct net_buf_simple *buf){
-    LOG_INF("Received netkey message");
+    struct bt_mesh_prov_helper_srv *srv = model->user_data;
+    
+    LOG_INF("Received nodeinfo message");
+    if(srv->handlers && srv->handlers->prov_helper_message_nodeinfo){
+        LOG_INF("Calling node info handler");
+        srv->handlers->prov_helper_message_nodeinfo(srv, ctx, buf);
+    }
     return 0;
 }
 
