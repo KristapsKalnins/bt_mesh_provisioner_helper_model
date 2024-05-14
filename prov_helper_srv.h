@@ -55,6 +55,9 @@ struct bt_mesh_time_srv_handlers {
 		struct bt_mesh_prov_helper_srv* srv, struct bt_mesh_msg_ctx *ctx,
 		struct net_buf_simple *buf);
 	
+	void (*const prov_helper_message_addrinfo)(
+		struct bt_mesh_prov_helper_srv* srv, struct bt_mesh_msg_ctx *ctx,
+		struct net_buf_simple *buf);
 };
 
 

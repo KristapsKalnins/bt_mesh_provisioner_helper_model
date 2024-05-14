@@ -40,7 +40,7 @@ const struct bt_mesh_model_cb _bt_mesh_prov_helper_cli_cb = {
 
 static int send_appkey(struct bt_mesh_model *model, uint8_t *app_key, uint16_t addr){
 
-    struct bt_mesh_prov_helper_cli *helper_cli = model->user_data;
+    //struct bt_mesh_prov_helper_cli *helper_cli = model->user_data;
 
     struct bt_mesh_msg_ctx ctx = BT_MESH_MSG_CTX_INIT_APP(0, addr);
     
@@ -76,7 +76,7 @@ static int send_netkey(struct bt_mesh_model *model, uint8_t *net_key, uint16_t a
 
     return bt_mesh_model_publish(model);*/
 
-    struct bt_mesh_prov_helper_cli *helper_cli = model->user_data;
+    //struct bt_mesh_prov_helper_cli *helper_cli = model->user_data;
 
     struct bt_mesh_msg_ctx ctx = BT_MESH_MSG_CTX_INIT_APP(0, addr);
     
@@ -102,9 +102,31 @@ int bt_mesh_prov_helper_cli_send_netkey(struct bt_mesh_model *model, uint8_t *ne
     return send_netkey(model, net_key, addr);
 }
 
+static int send_addrinfo(struct bt_mesh_model *model, uint16_t start, uint16_t end, uint16_t origin, uint16_t destination_addr){
+
+    //struct bt_mesh_prov_helper_cli *helper_cli = model->user_data;
+
+    struct bt_mesh_msg_ctx ctx = BT_MESH_MSG_CTX_INIT_APP(0, destination_addr);
+
+    bt_mesh_model_msg_init(model->pub->msg, BT_MESH_PROV_HELPER_OP_ADDRINFO);
+
+    net_buf_simple_add_le16(model->pub->msg, start);
+    net_buf_simple_add_le16(model->pub->msg, end);
+    net_buf_simple_add_le16(model->pub->msg, destination_addr);
+
+    //return bt_mesh_model_publish(model);
+    return bt_mesh_msg_ackd_send(model, &ctx, model->pub->msg, NULL/*&rsp*/);
+}
+
+int bt_mesh_prov_helper_cli_send_addrinfo(struct bt_mesh_model *model,uint16_t start, uint16_t end, uint16_t origin, uint16_t destination_addr){
+
+    return send_addrinfo(model, start, end, origin, destination_addr);
+
+}
+
 static int send_nodeinfo(struct bt_mesh_model *model, struct bt_mesh_cdb_node* node, uint16_t addr){
 
-    struct bt_mesh_prov_helper_cli *helper_cli = model->user_data;
+    //struct bt_mesh_prov_helper_cli *helper_cli = model->user_data;
 
     struct bt_mesh_msg_ctx ctx = BT_MESH_MSG_CTX_INIT_APP(0, addr);
 
@@ -142,6 +164,11 @@ const struct bt_mesh_model_op _bt_mesh_prov_helper_cli_opcode_list[] = {
     { 
         BT_MESH_PROV_HELPER_OP_NODEINFO,
         BT_MESH_LEN_EXACT(BT_MESH_PROV_HELPER_MSG_LEN_NODEINFO),
+        NULL
+    },
+    { 
+        BT_MESH_PROV_HELPER_OP_ADDRINFO,
+        BT_MESH_LEN_EXACT(BT_MESH_PROV_HELPER_MSG_LEN_ADDRINFO),
         NULL
     },
     BT_MESH_MODEL_OP_END,
