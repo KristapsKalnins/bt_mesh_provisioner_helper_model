@@ -112,7 +112,7 @@ static int send_addrinfo(struct bt_mesh_model *model, uint16_t start, uint16_t e
 
     net_buf_simple_add_le16(model->pub->msg, start);
     net_buf_simple_add_le16(model->pub->msg, end);
-    net_buf_simple_add_le16(model->pub->msg, destination_addr);
+    net_buf_simple_add_le16(model->pub->msg, origin);
 
     //return bt_mesh_model_publish(model);
     return bt_mesh_msg_ackd_send(model, &ctx, model->pub->msg, NULL/*&rsp*/);
