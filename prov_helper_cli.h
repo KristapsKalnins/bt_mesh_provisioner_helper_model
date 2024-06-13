@@ -44,7 +44,9 @@ struct bt_mesh_prov_helper_cli {
 int bt_mesh_prov_helper_cli_send_appkey(struct bt_mesh_model *model, uint8_t *app_key, uint16_t destination_addr);
 int bt_mesh_prov_helper_cli_send_netkey(struct bt_mesh_model *model, uint8_t *net_key, uint16_t destination_addr);
 int bt_mesh_prov_helper_cli_send_nodeinfo(struct bt_mesh_model *model, struct bt_mesh_cdb_node* node, uint16_t destination_addr);
-int bt_mesh_prov_helper_cli_send_addrinfo(struct bt_mesh_model *model, uint16_t start, uint16_t end, uint16_t origin, uint16_t destination_addr);
+int bt_mesh_prov_helper_cli_send_addrinfo(struct bt_mesh_model *model, uint16_t start, uint16_t end,
+											uint16_t origin, uint16_t destination_addr, uint8_t devices_to_provision,
+											uint8_t provisioning_time);
 
 //int send_appkey(struct bt_mesh_model *model);
 extern const struct bt_mesh_model_op _bt_mesh_prov_helper_cli_opcode_list[];

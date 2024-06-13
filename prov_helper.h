@@ -16,7 +16,7 @@
 #define BT_MESH_PROV_HELPER_MSG_LEN_APPKEY          16
 #define BT_MESH_PROV_HELPER_MSG_LEN_NETKEY          16
 #define BT_MESH_PROV_HELPER_MSG_LEN_NODEINFO        (sizeof(struct bt_mesh_cdb_node) - 3)
-#define BT_MESH_PROV_HELPER_MSG_LEN_ADDRINFO        (3 * sizeof(uint16_t))
+#define BT_MESH_PROV_HELPER_MSG_LEN_ADDRINFO        (3 * sizeof(uint16_t) + 2 * sizeof(uint8_t))
 
 
 

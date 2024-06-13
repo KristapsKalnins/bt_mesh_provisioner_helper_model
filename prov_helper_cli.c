@@ -102,7 +102,9 @@ int bt_mesh_prov_helper_cli_send_netkey(struct bt_mesh_model *model, uint8_t *ne
     return send_netkey(model, net_key, addr);
 }
 
-static int send_addrinfo(struct bt_mesh_model *model, uint16_t start, uint16_t end, uint16_t origin, uint16_t destination_addr){
+static int send_addrinfo(struct bt_mesh_model *model, uint16_t start, uint16_t end,
+                         uint16_t origin, uint16_t destination_addr, uint8_t devices_to_provision,
+                         uint8_t provisioning_time){
 
     //struct bt_mesh_prov_helper_cli *helper_cli = model->user_data;
 
@@ -113,14 +115,18 @@ static int send_addrinfo(struct bt_mesh_model *model, uint16_t start, uint16_t e
     net_buf_simple_add_le16(model->pub->msg, start);
     net_buf_simple_add_le16(model->pub->msg, end);
     net_buf_simple_add_le16(model->pub->msg, origin);
+    net_buf_simple_add_u8(model->pub->msg, devices_to_provision);
+    net_buf_simple_add_u8(model->pub->msg, provisioning_time);
 
     //return bt_mesh_model_publish(model);
     return bt_mesh_msg_ackd_send(model, &ctx, model->pub->msg, NULL/*&rsp*/);
 }
 
-int bt_mesh_prov_helper_cli_send_addrinfo(struct bt_mesh_model *model,uint16_t start, uint16_t end, uint16_t origin, uint16_t destination_addr){
+int bt_mesh_prov_helper_cli_send_addrinfo(struct bt_mesh_model *model,uint16_t start, uint16_t end,
+                                          uint16_t origin, uint16_t destination_addr, uint8_t devices_to_provision,
+                                          uint8_t provisioning_time){
 
-    return send_addrinfo(model, start, end, origin, destination_addr);
+    return send_addrinfo(model, start, end, origin, destination_addr, devices_to_provision, provisioning_time);
 
 }
 
