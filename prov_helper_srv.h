@@ -38,24 +38,24 @@ struct bt_mesh_prov_helper_srv {
 	//*
 	//* @note Must point to memory that remains valid.
 	//*/
-	const struct bt_mesh_time_srv_handlers *handlers; 
+	const struct bt_mesh_prov_helper_srv_handlers *handlers; 
 };
 
-struct bt_mesh_time_srv_handlers {
+struct bt_mesh_prov_helper_srv_handlers {
 
-	void (*const prov_helper_message_appkey)(
+	int (*const prov_helper_message_appkey)(
 		struct bt_mesh_prov_helper_srv* srv, struct bt_mesh_msg_ctx *ctx,
 		struct net_buf_simple *buf);
 
-	void (*const prov_helper_message_netkey)(
+	int (*const prov_helper_message_netkey)(
 		struct bt_mesh_prov_helper_srv* srv, struct bt_mesh_msg_ctx *ctx,
 		struct net_buf_simple *buf);
 
-	void (*const prov_helper_message_nodeinfo)(
+	int (*const prov_helper_message_nodeinfo)(
 		struct bt_mesh_prov_helper_srv* srv, struct bt_mesh_msg_ctx *ctx,
 		struct net_buf_simple *buf);
 	
-	void (*const prov_helper_message_addrinfo)(
+	int (*const prov_helper_message_addrinfo)(
 		struct bt_mesh_prov_helper_srv* srv, struct bt_mesh_msg_ctx *ctx,
 		struct net_buf_simple *buf);
 };

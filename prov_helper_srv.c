@@ -38,12 +38,24 @@ static int handle_message_appkey(struct bt_mesh_model *model,
                                   struct net_buf_simple *buf){
     
     struct bt_mesh_prov_helper_srv *srv = model->user_data;
+
+    BT_MESH_MODEL_BUF_DEFINE(msg, BT_MESH_PROV_HELPER_OP_APPKEY, 4);
+
+    int res = 0;
+
     LOG_INF("Received appkey message");
 
     if(srv->handlers && srv->handlers->prov_helper_message_appkey){
         LOG_INF("Calling app key handler");
-        srv->handlers->prov_helper_message_appkey(srv, ctx, buf);
+        res = srv->handlers->prov_helper_message_appkey(srv, ctx, buf);
     }
+
+    bt_mesh_model_msg_init(&msg, BT_MESH_PROV_HELPER_OP_APPKEY);
+    net_buf_simple_add_mem(&msg, &res, 4);
+
+    if (bt_mesh_model_send(model, ctx, &msg, NULL, NULL)) {
+		LOG_ERR("Could not send addr info response");
+	}
 
     return 0;
 }
@@ -53,13 +65,24 @@ static int handle_message_netkey(struct bt_mesh_model *model,
                                   struct net_buf_simple *buf){
     struct bt_mesh_prov_helper_srv *srv = model->user_data;
 
+    BT_MESH_MODEL_BUF_DEFINE(msg, BT_MESH_PROV_HELPER_OP_NETKEY, 4);
+
+    int res = 0;
+
     LOG_INF("Received netkey message");
     
     if(srv->handlers && srv->handlers->prov_helper_message_netkey){
         LOG_INF("Calling net key handler");
-        srv->handlers->prov_helper_message_netkey(srv, ctx, buf);
+        res = srv->handlers->prov_helper_message_netkey(srv, ctx, buf);
     }
     
+    bt_mesh_model_msg_init(&msg, BT_MESH_PROV_HELPER_OP_NETKEY);
+    net_buf_simple_add_mem(&msg, &res, 4);
+
+    if (bt_mesh_model_send(model, ctx, &msg, NULL, NULL)) {
+		LOG_ERR("Could not send addr info response");
+	}
+
     return 0;
 }
 
@@ -68,11 +91,24 @@ static int handle_message_nodeinfo(struct bt_mesh_model *model,
                                   struct net_buf_simple *buf){
     struct bt_mesh_prov_helper_srv *srv = model->user_data;
     
+    BT_MESH_MODEL_BUF_DEFINE(msg, BT_MESH_PROV_HELPER_OP_NODEINFO, 4);
+
+    int res = 0;
+
     //LOG_INF("Received nodeinfo message");
     if(srv->handlers && srv->handlers->prov_helper_message_nodeinfo){
         //LOG_INF("Calling node info handler");
-        srv->handlers->prov_helper_message_nodeinfo(srv, ctx, buf);
+        res = srv->handlers->prov_helper_message_nodeinfo(srv, ctx, buf);
     }
+
+    bt_mesh_model_msg_init(&msg, BT_MESH_PROV_HELPER_OP_NODEINFO);
+    net_buf_simple_add_mem(&msg, &res, 4);
+
+    if (bt_mesh_model_send(model, ctx, &msg, NULL, NULL)) {
+		LOG_ERR("Could not send addr info response");
+	}
+
+
     return 0;
 }
 
@@ -81,12 +117,23 @@ static int handle_message_addrinfo(struct bt_mesh_model *model,
                                   struct net_buf_simple *buf){
     
     struct bt_mesh_prov_helper_srv *srv = model->user_data;
-    
+    BT_MESH_MODEL_BUF_DEFINE(msg, BT_MESH_PROV_HELPER_OP_ADDRINFO, 4);
+
+    int res = 0;
+
     LOG_INF("Received addrinfo message");
     if(srv->handlers && srv->handlers->prov_helper_message_addrinfo){
         LOG_INF("Calling addr info handler");
-        srv->handlers->prov_helper_message_addrinfo(srv, ctx, buf);
+        res = srv->handlers->prov_helper_message_addrinfo(srv, ctx, buf);
     }
+
+    bt_mesh_model_msg_init(&msg, BT_MESH_PROV_HELPER_OP_ADDRINFO);
+    net_buf_simple_add_mem(&msg, &res, 4);
+
+    if (bt_mesh_model_send(model, ctx, &msg, NULL, NULL)) {
+		LOG_ERR("Could not send addr info response");
+	}
+
     return 0;
 }
 
