@@ -51,7 +51,7 @@ static int send_appkey(struct bt_mesh_model *model, uint8_t *app_key, uint16_t a
 
     const struct bt_mesh_msg_rsp_ctx rsp = {
 		.ack = &helper_cli->ack_ctx,
-		.op = BT_MESH_PROV_HELPER_OP_APPKEY,
+		.op = BT_MESH_PROV_HELPER_OP_APPKEY_STATUS,
 		.user_data = NULL,
 		.timeout = 10000,
 	};
@@ -80,7 +80,7 @@ static int send_netkey(struct bt_mesh_model *model, uint8_t *net_key, uint16_t a
 
     const struct bt_mesh_msg_rsp_ctx rsp = {
 		.ack = &helper_cli->ack_ctx,
-		.op = BT_MESH_PROV_HELPER_OP_NETKEY,
+		.op = BT_MESH_PROV_HELPER_OP_NETKEY_STATUS,
 		.user_data = NULL,
 		.timeout = 10000,
 	};
@@ -114,7 +114,7 @@ static int send_addrinfo(struct bt_mesh_model *model, uint16_t start, uint16_t e
 
     const struct bt_mesh_msg_rsp_ctx rsp = {
 		.ack = &helper_cli->ack_ctx,
-		.op = BT_MESH_PROV_HELPER_OP_ADDRINFO,
+		.op = BT_MESH_PROV_HELPER_OP_ADDRINFO_STATUS,
 		.user_data = NULL,
 		.timeout = 10000,
 	};
@@ -148,7 +148,7 @@ static int send_nodeinfo(struct bt_mesh_model *model, struct bt_mesh_cdb_node* n
 
     const struct bt_mesh_msg_rsp_ctx rsp = {
 		.ack = &helper_cli->ack_ctx,
-		.op = BT_MESH_PROV_HELPER_OP_NODEINFO,
+		.op = BT_MESH_PROV_HELPER_OP_NODEINFO_STATUS,
 		.user_data = NULL,
 		.timeout = 10000,
 	};
