@@ -227,26 +227,6 @@ static int handle_message_addrinfo_status(struct bt_mesh_model *model,
 
 const struct bt_mesh_model_op _bt_mesh_prov_helper_cli_opcode_list[] = {
     { 
-        BT_MESH_PROV_HELPER_OP_APPKEY,
-        BT_MESH_LEN_EXACT(BT_MESH_PROV_HELPER_MSG_LEN_APPKEY),
-        NULL
-    },
-    { 
-        BT_MESH_PROV_HELPER_OP_NETKEY,
-        BT_MESH_LEN_EXACT(BT_MESH_PROV_HELPER_MSG_LEN_NETKEY),
-        NULL
-    },
-    { 
-        BT_MESH_PROV_HELPER_OP_NODEINFO,
-        BT_MESH_LEN_EXACT(BT_MESH_PROV_HELPER_MSG_LEN_NODEINFO),
-        NULL
-    },
-    { 
-        BT_MESH_PROV_HELPER_OP_ADDRINFO,
-        BT_MESH_LEN_EXACT(BT_MESH_PROV_HELPER_MSG_LEN_ADDRINFO),
-        NULL
-    },
-    { 
         BT_MESH_PROV_HELPER_OP_APPKEY_STATUS,
         BT_MESH_LEN_EXACT(BT_MESH_PROV_HELPER_MSG_LEN_APPKEY_STATUS),
         handle_message_appkey_status
