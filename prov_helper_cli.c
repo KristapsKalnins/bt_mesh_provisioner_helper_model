@@ -164,6 +164,67 @@ int bt_mesh_prov_helper_cli_send_nodeinfo(struct bt_mesh_model *model, struct bt
 
 }
 
+static int handle_message_appkey_status(struct bt_mesh_model *model,
+                                  struct bt_mesh_msg_ctx *ctx,
+                                  struct net_buf_simple *buf){
+
+    struct bt_mesh_prov_helper_cli *helper_cli = model->user_data;
+
+    int* status = (int*)net_buf_simple_pull_mem(buf, 4);
+    
+    if (bt_mesh_msg_ack_ctx_match(&helper_cli->ack_ctx, BT_MESH_PROV_HELPER_OP_APPKEY_STATUS, ctx->addr,
+				      NULL)) {
+
+		bt_mesh_msg_ack_ctx_rx(&helper_cli->ack_ctx);
+	}
+    return 0;
+}
+
+static int handle_message_netkey_status(struct bt_mesh_model *model,
+                                  struct bt_mesh_msg_ctx *ctx,
+                                  struct net_buf_simple *buf){
+    struct bt_mesh_prov_helper_cli *helper_cli = model->user_data;
+
+    int* status = (int*)net_buf_simple_pull_mem(buf, 4);
+    
+    if (bt_mesh_msg_ack_ctx_match(&helper_cli->ack_ctx, BT_MESH_PROV_HELPER_OP_NETKEY_STATUS, ctx->addr,
+				      NULL)) {
+
+		bt_mesh_msg_ack_ctx_rx(&helper_cli->ack_ctx);
+	}
+    return 0;
+}
+
+static int handle_message_nodeinfo_status(struct bt_mesh_model *model,
+                                  struct bt_mesh_msg_ctx *ctx,
+                                  struct net_buf_simple *buf){
+    struct bt_mesh_prov_helper_cli *helper_cli = model->user_data;
+
+    int* status = (int*)net_buf_simple_pull_mem(buf, 4);
+    
+    if (bt_mesh_msg_ack_ctx_match(&helper_cli->ack_ctx, BT_MESH_PROV_HELPER_OP_NODEINFO_STATUS, ctx->addr,
+				      NULL)) {
+
+		bt_mesh_msg_ack_ctx_rx(&helper_cli->ack_ctx);
+	}
+    return 0;
+}
+
+static int handle_message_addrinfo_status(struct bt_mesh_model *model,
+                                  struct bt_mesh_msg_ctx *ctx,
+                                  struct net_buf_simple *buf){
+    struct bt_mesh_prov_helper_cli *helper_cli = model->user_data;
+
+    int* status = (int*)net_buf_simple_pull_mem(buf, 4);
+    
+    if (bt_mesh_msg_ack_ctx_match(&helper_cli->ack_ctx, BT_MESH_PROV_HELPER_OP_ADDRINFO_STATUS, ctx->addr,
+				      NULL)) {
+
+		bt_mesh_msg_ack_ctx_rx(&helper_cli->ack_ctx);
+	}
+    return 0;
+}
+
 const struct bt_mesh_model_op _bt_mesh_prov_helper_cli_opcode_list[] = {
     { 
         BT_MESH_PROV_HELPER_OP_APPKEY,
@@ -188,22 +249,22 @@ const struct bt_mesh_model_op _bt_mesh_prov_helper_cli_opcode_list[] = {
     { 
         BT_MESH_PROV_HELPER_OP_APPKEY_STATUS,
         BT_MESH_LEN_EXACT(BT_MESH_PROV_HELPER_MSG_LEN_APPKEY_STATUS),
-        NULL
+        handle_message_appkey_status
     },
     { 
         BT_MESH_PROV_HELPER_OP_NETKEY_STATUS,
         BT_MESH_LEN_EXACT(BT_MESH_PROV_HELPER_MSG_LEN_NETKEY_STATUS),
-        NULL
+        handle_message_netkey_status
     },
     { 
         BT_MESH_PROV_HELPER_OP_NODEINFO_STATUS,
         BT_MESH_LEN_EXACT(BT_MESH_PROV_HELPER_MSG_LEN_NODEINFO_STATUS),
-        NULL
+        handle_message_nodeinfo_status
     },
     { 
         BT_MESH_PROV_HELPER_OP_ADDRINFO_STATUS,
         BT_MESH_LEN_EXACT(BT_MESH_PROV_HELPER_MSG_LEN_ADDRINFO_STATUS),
-        NULL
+        handle_message_addrinfo_status
     },
     BT_MESH_MODEL_OP_END,
 };
